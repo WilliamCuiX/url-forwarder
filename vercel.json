@@ -3,7 +3,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/forward-url.js"
+      "dest": "/api/forward-url.js"
     }
   ],
   "functions": {
