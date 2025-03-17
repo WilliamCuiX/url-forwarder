@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/forward-url.js"
+    }
+  ],
+  "functions": {
+    "forward-url.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  }
+} 

@@ -1,0 +1,25 @@
+{
+  "name": "url-forwarder",
+  "version": "1.0.0",
+  "description": "一个简单的URL转发服务，通过环境变量配置转发映射",
+  "main": "forward-url.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel deploy --prod"
+  },
+  "keywords": [
+    "url",
+    "redirect",
+    "forward",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^28.0.0"
+  },
+  "engines": {
+    "node": ">=14.x"
+  }
+} 
