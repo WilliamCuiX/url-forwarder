@@ -25,25 +25,27 @@
 
 ## 🚀 部署方法
 
-### 方法一：Fork + 一键部署（推荐）
+### 方法一：Fork + 部署（推荐）
 
 这种方法可以让您在未来轻松获取原始仓库的更新：
 
 1. 首先 [Fork 这个仓库](https://github.com/WilliamCuiX/url-forwarder/fork) 到您自己的GitHub账户
-2. 然后从您的Fork仓库部署到Vercel：
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/import?s=https://github.com/WilliamCuiX/url-forwarder)
-3. 按照Vercel的提示完成部署
+2. 在您的Fork仓库页面点击"Code"按钮，复制仓库URL
+3. 访问 [Vercel导入页面](https://vercel.com/new)，选择"Import Git Repository"
+4. 粘贴您的Fork仓库URL，按照提示完成部署
 
 这种方式的优势：
 - 您可以定期从原始仓库拉取更新
 - 可以根据自己的需求自定义代码
 - 完全控制您的部署环境
 
-### 方法二：直接部署
+### 方法二：直接部署（快速）
 
-如果您只想快速部署而不需要获取未来更新：
+如果您只想快速部署而不需要获取未来更新，可以直接点击下方按钮：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/WilliamCuiX/url-forwarder&project-name=my-url-forwarder&repository-name=my-url-forwarder)
+
+> 注意：使用此方法会在您的GitHub账户中创建一个新的仓库，并将其部署到Vercel。
 
 ### 方法三：手动部署
 
