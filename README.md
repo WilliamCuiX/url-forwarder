@@ -25,15 +25,29 @@
 
 ## 🚀 部署方法
 
-### 方法一：一键部署
+### 方法一：Fork + 一键部署（推荐）
 
-点击下方按钮，一键部署到Vercel：
+这种方法可以让您在未来轻松获取原始仓库的更新：
+
+1. 首先 [Fork 这个仓库](https://github.com/WilliamCuiX/url-forwarder/fork) 到您自己的GitHub账户
+2. 然后从您的Fork仓库部署到Vercel：
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/import?s=https://github.com/WilliamCuiX/url-forwarder)
+3. 按照Vercel的提示完成部署
+
+这种方式的优势：
+- 您可以定期从原始仓库拉取更新
+- 可以根据自己的需求自定义代码
+- 完全控制您的部署环境
+
+### 方法二：直接部署
+
+如果您只想快速部署而不需要获取未来更新：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/WilliamCuiX/url-forwarder&project-name=my-url-forwarder&repository-name=my-url-forwarder)
 
-### 方法二：手动部署
+### 方法三：手动部署
 
-1. Fork或克隆此仓库
+1. 克隆此仓库或您的Fork仓库
 2. 在Vercel上导入项目
 3. 在Vercel项目设置中添加环境变量
 
