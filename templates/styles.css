@@ -1,0 +1,171 @@
+/* 公共样式 */
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* 容器样式 */
+.container {
+  max-width: 800px;
+  padding: 2rem;
+  margin: 2rem auto;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.error-container {
+  max-width: 600px;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+/* 标题样式 */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* 段落样式 */
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* 按钮样式 */
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  margin-top: 1rem;
+  background: #3b82f6;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #2563eb;
+}
+
+/* GitHub链接样式 */
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.github-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.github-link i {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+/* 首页链接样式 */
+.home-link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #3b82f6;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.home-link:hover {
+  background: #2563eb;
+}
+
+/* 代码样式 */
+code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* 错误图标样式 */
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #ef4444;
+}
+
+/* 列表样式 */
+ul.list-disc {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+ul.list-disc li {
+  margin-bottom: 0.5rem;
+}
+
+/* 文本对齐 */
+.text-center {
+  text-align: center;
+}
+
+/* 代码块样式 */
+pre {
+  background: #1f2937;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow: auto;
+  color: #10b981;
+  font-family: monospace;
+  margin: 1rem 0;
+}
+
+/* 页脚样式 */
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+/* 链接样式 */
+a {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+} 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>URL Forwarder - 高效的URL转发服务</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/templates/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔗 URL Forwarder</h1>
+      <p class="text-center">一个高效、轻量级的URL转发服务，通过环境变量轻松配置转发映射。</p>
+      
+      <div class="text-center">
+        <a href="https://github.com/WilliamCuiX/url-forwarder" class="github-link" target="_blank">
+          <i class="bi bi-github"></i> 在GitHub上查看项目
+        </a>
+      </div>
+      
+      <h2 class="mt-6 text-xl font-bold">📖 使用方法</h2>
+      <p>访问 <code>/{路径}</code> 将会转发到对应的环境变量配置的URL。</p>
+      <pre>
+# 示例：设置环境变量
+baidu=https://www.baidu.com
+
+# 访问 /baidu 将会转发到百度
+      </pre>
+      
+      <h2 class="mt-6 text-xl font-bold">⚙️ 部署自己的实例</h2>
+      <p>只需点击下方按钮，即可一键部署到Vercel（会先创建您自己的代码副本）：</p>
+      <div class="text-center">
+        <a href="https://vercel.com/new/clone?repository-url=https://github.com/WilliamCuiX/url-forwarder&project-name=my-url-forwarder&repository-name=my-url-forwarder" class="button" target="_blank">
+          <i class="bi bi-cloud-upload"></i> Deploy with Vercel
+        </a>
+      </div>
+      
+      <p class="mt-2 text-sm">注意：部署时会创建您自己的代码副本，这样您可以完全控制自己的实例。</p>
+      
+      <h2 class="mt-6 text-xl font-bold">🔍 功能特性</h2>
+      <ul class="list-disc">
+        <li>通过环境变量配置URL转发映射</li>
+        <li>支持多种协议的URL转发</li>
+        <li>简洁的错误页面和使用说明</li>
+        <li>轻量级，无需额外的服务器资源</li>
+        <li>部署简单，一键完成</li>
+        <li>支持自定义域名</li>
+      </ul>
+      
+      <h2 class="mt-6 text-xl font-bold">📊 当前可用的转发配置</h2>
+      <div class="bg-gray-800 p-4 rounded-md mt-2">
+        <ul class="space-y-2">
+          {{URL_CONFIGS}}
+        </ul>
+      </div>
+      
+      <h2 class="mt-6 text-xl font-bold">📞 联系我们</h2>
+      <p>如有任何问题，请通过<a href="https://github.com/WilliamCuiX/url-forwarder/issues">GitHub Issues</a>联系我们。</p>
+      
+      <div class="footer">
+        <p>© {{CURRENT_YEAR}} URL Forwarder | 基于 <a href="https://vercel.com">Vercel</a> 构建</p>
+      </div>
+    </div>
+  </body>
+</html> 
