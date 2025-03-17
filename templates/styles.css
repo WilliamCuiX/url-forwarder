@@ -168,4 +168,46 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+/* 提示框样式 */
+.notice {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid;
+}
+
+.notice h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.notice h3 i {
+  margin-right: 0.5rem;
+}
+
+.notice p {
+  margin-bottom: 0.75rem;
+}
+
+.notice ol, .notice ul {
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.notice ol li, .notice ul li {
+  margin-bottom: 0.25rem;
+}
+
+.notice.warning {
+  background-color: rgba(251, 191, 36, 0.1);
+  border-color: #f59e0b;
+}
+
+.notice.warning h3 {
+  color: #f59e0b;
 } 

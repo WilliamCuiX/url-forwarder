@@ -86,7 +86,19 @@
 - 访问 `https://example.com/baidu` 将会重定向到百度
 - 访问 `https://example.com/github` 将会重定向到GitHub
 - 访问 `https://example.com/google` 将会重定向到Google
-- 访问 `https://example.com/` 将会显示所有可用的转发配置
+
+### 首页功能
+
+访问 `https://example.com/`（根路径）将会显示一个美观的首页，包含：
+
+- 项目介绍和使用说明
+- 当前配置的所有转发链接列表
+- 部署和使用指南
+
+首页对以下用户非常有用：
+- 管理员：可以快速查看所有已配置的转发链接
+- 新用户：了解如何使用此服务
+- 访客：浏览可用的链接选项
 
 ## 🔍 使用场景
 
