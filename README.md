@@ -5,8 +5,10 @@
 ![URL Forwarder Logo](https://img.shields.io/badge/URL-Forwarder-3a86ff?style=for-the-badge&logo=vercel&logoColor=white)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/WilliamCuiX/url-forwarder&project-name=my-url-forwarder&repository-name=my-url-forwarder)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.x-brightgreen)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.x-brightgreen?style=flat-square)](https://nodejs.org/)
+[![Vercel](https://img.shields.io/badge/Vercel-Ready-black?style=flat-square&logo=vercel)](https://vercel.com)
 
 </div>
 
