@@ -88,7 +88,8 @@ module.exports = (req, res) => {
               url: jsonData.url,
               description: jsonData.description || '',
               icon: jsonData.icon || '',
-              animation: jsonData.animation || ''
+              animation: jsonData.animation || '',
+              order: jsonData.order || 999 // 添加排序字段，默认为999
             };
           }
         } catch (e) {
@@ -102,10 +103,12 @@ module.exports = (req, res) => {
           url: value, 
           description: '', // 简单格式下没有描述
           icon: '',
-          animation: ''
+          animation: '',
+          order: 999 // 添加排序字段，默认为999
         };
       })
-      .filter(item => item.url && item.url.startsWith('http')); // 确保URL有效
+      .filter(item => item.url && item.url.startsWith('http')) // 确保URL有效
+      .sort((a, b) => a.order - b.order); // 按order字段排序，从小到大
     
     // 渲染模板
     const rendered = renderTemplate(linksTemplate, {
@@ -154,6 +157,7 @@ module.exports = (req, res) => {
         let url = value;
         let name = key;
         let description = '';
+        let order = 999; // 默认排序值
         
         // 尝试解析JSON格式
         try {
@@ -164,6 +168,7 @@ module.exports = (req, res) => {
             url = jsonData.url;
             name = jsonData.name || key;
             description = jsonData.description || '';
+            order = jsonData.order || 999; // 提取排序值
           }
         } catch (e) {
           console.error(`Error parsing JSON for ${key}:`, e);
@@ -171,8 +176,13 @@ module.exports = (req, res) => {
         
         const descriptionHtml = description ? `<div class="text-sm text-gray-300 mt-1">${description}</div>` : '';
         
-        return `<li><i class="bi bi-link-45deg text-blue-400"></i> <code>/${key}</code> → <strong>${name}</strong> <code>${url}</code>${descriptionHtml}</li>`;
+        return {
+          html: `<li><i class="bi bi-link-45deg text-blue-400"></i> <code>/${key}</code> → <strong>${name}</strong> <code>${url}</code>${descriptionHtml}</li>`,
+          order: order // 添加排序字段
+        };
       })
+      .sort((a, b) => a.order - b.order) // 按order字段排序
+      .map(item => item.html) // 提取HTML内容
       .join('') || '<li><i class="bi bi-exclamation-triangle text-yellow-400"></i> 暂无配置</li>';
     
     // 渲染模板

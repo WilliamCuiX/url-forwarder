@@ -61,10 +61,10 @@
           const card = document.createElement('div');
           card.className = `link-card ${animClass}`;
           
-          // 构建图标HTML - 支持Bootstrap图标和图片(URL或base64)
+          // 构建图标HTML - 支持Bootstrap图标和自定义图片图标
           let iconHtml = '';
-          if (item.icon && (item.icon.startsWith('http') || item.icon.startsWith('data:'))) {
-            // 使用图片(URL或base64)，适应各种形状的logo
+          if (item.icon && item.icon.startsWith('http')) {
+            // 如果是URL，使用图片，适应各种形状的logo
             iconHtml = `<div class="logo-container"><img src="${item.icon}" class="link-icon-img" alt="${item.name} 图标"></div>`;
           } else {
             // 否则使用Bootstrap图标
