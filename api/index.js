@@ -78,8 +78,10 @@ module.exports = (req, res) => {
         
         // 尝试解析为JSON
         try {
-          if (value.startsWith('{')) {
-            const jsonData = JSON.parse(value);
+          if (value.trim().startsWith('{')) {
+            // 规范化JSON字符串，去除可能的空白和换行符
+            const cleanedValue = value.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            const jsonData = JSON.parse(cleanedValue);
             return {
               path: key,
               name: jsonData.name || key,
@@ -155,8 +157,10 @@ module.exports = (req, res) => {
         
         // 尝试解析JSON格式
         try {
-          if (value.startsWith('{')) {
-            const jsonData = JSON.parse(value);
+          if (value.trim().startsWith('{')) {
+            // 规范化JSON字符串，去除可能的空白和换行符
+            const cleanedValue = value.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            const jsonData = JSON.parse(cleanedValue);
             url = jsonData.url;
             name = jsonData.name || key;
             description = jsonData.description || '';
@@ -202,8 +206,10 @@ module.exports = (req, res) => {
   
   // 如果是JSON格式，解析并提取URL
   try {
-    if (targetVar.startsWith('{')) {
-      const jsonData = JSON.parse(targetVar);
+    if (targetVar.trim().startsWith('{')) {
+      // 规范化JSON字符串，去除可能的空白和换行符
+      const cleanedValue = targetVar.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+      const jsonData = JSON.parse(cleanedValue);
       targetUrl = jsonData.url;
     }
   } catch (e) {
