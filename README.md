@@ -107,6 +107,7 @@ JSON格式支持以下字段：
   - 可以是Bootstrap图标类名，如 `bi-github`、`bi-youtube`、`bi-twitter` 等
   - Bootstrap图标完整列表：[https://icons.getbootstrap.com/](https://icons.getbootstrap.com/)
   - 也可以是图片URL，如 `https://example.com/icon.png`
+  - 支持base64编码的图片，如 `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`
 - `animation`: 动画效果（可选）
   - 可设置为 `pulse-anim` 使卡片有呼吸灯效果
   - 默认为空，无动画效果
