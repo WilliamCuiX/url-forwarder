@@ -64,8 +64,8 @@
           // 构建图标HTML - 支持Bootstrap图标和自定义图片图标
           let iconHtml = '';
           if (item.icon && item.icon.startsWith('http')) {
-            // 如果是URL，使用图片，并调整尺寸更大
-            iconHtml = `<img src="${item.icon}" class="link-icon" style="width: 3.5rem; height: 3.5rem; object-fit: contain; margin-bottom: 0.75rem;">`;
+            // 如果是URL，使用图片，适应各种形状的logo
+            iconHtml = `<div class="logo-container"><img src="${item.icon}" class="link-icon-img" alt="${item.name} 图标"></div>`;
           } else {
             // 否则使用Bootstrap图标
             iconHtml = `<i class="bi ${iconClass} link-icon" style="color: #3b82f6;"></i>`;
