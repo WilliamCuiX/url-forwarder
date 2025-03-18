@@ -34,7 +34,23 @@
       
       // 处理卡片点击事件
       function handleCardClick(url) {
-        window.location.href = url;
+        window.open(url, '_blank');
+      }
+      
+      // 复制文本到剪贴板
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+          // 显示复制成功提示
+          const toast = document.createElement('div');
+          toast.className = 'copy-toast';
+          toast.textContent = '已复制到剪贴板';
+          document.body.appendChild(toast);
+          
+          // 2秒后移除提示
+          setTimeout(() => {
+            toast.remove();
+          }, 2000);
+        });
       }
       
       // 创建链接卡片
@@ -71,10 +87,50 @@
             iconHtml = `<i class="bi ${iconClass} link-icon" style="color: #3b82f6;"></i>`;
           }
           
+          // 检查描述中是否包含邀请码
+          let inviteCode = null;
+          
+          // 尝试匹配"邀请码XXX"格式
+          const inviteCodePattern = /邀请码\s*[：:]\s*([A-Z0-9]{4,})/i;
+          const inviteCodeMatch1 = item.description ? item.description.match(inviteCodePattern) : null;
+          
+          if (inviteCodeMatch1) {
+            inviteCode = inviteCodeMatch1[1];
+          } else {
+            // 尝试匹配"邀请码XXX可"这种格式
+            const specialPattern = /邀请码\s*([A-Z0-9]{4,})\s*可/i;
+            const specialMatch = item.description ? item.description.match(specialPattern) : null;
+            
+            if (specialMatch) {
+              inviteCode = specialMatch[1];
+            } else {
+              // 尝试匹配一般的大写字母数字组合
+              const generalCodePattern = /\b([A-Z0-9]{4,})\b(?=.*?(?:话费|优惠|奖励))/;
+              const inviteCodeMatch2 = item.description ? item.description.match(generalCodePattern) : null;
+              if (inviteCodeMatch2) {
+                inviteCode = inviteCodeMatch2[1];
+              }
+            }
+          }
+          
           // 准备描述内容
-          const descriptionHtml = item.description 
-            ? `<p class="link-description">${item.description}</p>` 
-            : '';
+          let descriptionHtml = '';
+          if (item.description) {
+            if (inviteCode) {
+              // 如果有邀请码，添加复制按钮
+              const description = item.description.replace(inviteCode, `<span class="invite-code">${inviteCode}</span>`);
+              descriptionHtml = `
+                <p class="link-description">
+                  ${description}
+                  <button class="copy-btn" onclick="event.stopPropagation(); copyToClipboard('${inviteCode}')">
+                    <i class="bi bi-clipboard"></i> 复制
+                  </button>
+                </p>
+              `;
+            } else {
+              descriptionHtml = `<p class="link-description">${item.description}</p>`;
+            }
+          }
           
           card.innerHTML = `
             ${iconHtml}
