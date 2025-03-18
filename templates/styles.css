@@ -354,4 +354,58 @@ a:hover {
 /* 特殊链接样式 */
 .special-link:hover {
   background: rgba(59, 130, 246, 0.4) !important;
+}
+
+/* 复制按钮样式 */
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  margin-left: 0.5rem;
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+.copy-btn i {
+  margin-right: 0.25rem;
+}
+
+/* 邀请码样式 */
+.invite-code {
+  font-weight: 600;
+  color: #3b82f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* 复制成功提示框 */
+.copy-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  z-index: 1000;
+  animation: fadeInOut 2s ease;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, 1rem); }
+  15% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -1rem); }
 } 
