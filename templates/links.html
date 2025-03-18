@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>我的精选链接 - URL Forwarder</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/templates/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-title"><span class="header-emoji">✨</span>我的精选链接</h1>
+      <p class="text-center">来看看这些超棒的资源和工具吧！点击卡片即可访问</p>
+      
+      <div class="text-center">
+        <a href="/" class="github-link">
+          <i class="bi bi-house-door"></i> 返回首页
+        </a>
+      </div>
+      
+      <div class="links-container" id="links-container">
+        <!-- 链接卡片将通过JavaScript动态生成 -->
+      </div>
+      
+      <div class="footer">
+        <p>© {{CURRENT_YEAR}} URL Forwarder | 基于 <a href="https://vercel.com">Vercel</a> 构建</p>
+      </div>
+    </div>
+    
+    <script>
+      // 链接数据
+      const linkItems = JSON.parse('{{LINK_ITEMS}}');
+      
+      // 处理卡片点击事件
+      function handleCardClick(url) {
+        window.location.href = url;
+      }
+      
+      // 创建链接卡片
+      function createLinkCards() {
+        const container = document.getElementById('links-container');
+        
+        if (linkItems.length === 0) {
+          container.innerHTML = `
+            <div class="text-center col-span-full">
+              <p style="padding: 3rem;">暂无配置的链接 <i class="bi bi-emoji-frown"></i></p>
+            </div>
+          `;
+          return;
+        }
+        
+        linkItems.forEach(item => {
+          // 使用自定义图标或默认图标（不再随机选择）
+          const defaultIcon = 'bi-link-45deg';
+          const iconClass = item.icon || defaultIcon;
+          
+          // 使用配置的动画类
+          const animClass = item.animation || '';
+          
+          const card = document.createElement('div');
+          card.className = `link-card ${animClass}`;
+          
+          // 构建图标HTML - 支持Bootstrap图标和自定义图片图标
+          let iconHtml = '';
+          if (item.icon && item.icon.startsWith('http')) {
+            // 如果是URL，使用图片
+            iconHtml = `<img src="${item.icon}" class="link-icon" style="width: 2rem; height: 2rem; object-fit: contain;">`;
+          } else {
+            // 否则使用Bootstrap图标
+            iconHtml = `<i class="bi ${iconClass} link-icon" style="color: #3b82f6;"></i>`;
+          }
+          
+          // 准备描述内容
+          const descriptionHtml = item.description 
+            ? `<p class="link-description">${item.description}</p>` 
+            : '';
+          
+          card.innerHTML = `
+            ${iconHtml}
+            <div class="link-title">${item.name}</div>
+            ${descriptionHtml}
+            <p class="mt-2">点击访问 <i class="bi bi-box-arrow-up-right"></i></p>
+          `;
+          
+          // 添加点击事件
+          card.addEventListener('click', () => handleCardClick(`/${item.path}`));
+          
+          container.appendChild(card);
+        });
+      }
+      
+      // 页面加载完成后创建卡片
+      document.addEventListener('DOMContentLoaded', createLinkCards);
+    </script>
+  </body>
+</html>

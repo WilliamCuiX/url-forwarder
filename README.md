@@ -22,6 +22,8 @@
 - 🔒 **安全可靠** - 基于Vercel的可靠基础设施
 - 📱 **响应式设计** - 完美适配各种设备屏幕
 - ⚡ **高性能** - 基于Vercel边缘网络，全球快速访问
+- 🌈 **精美链接展示** - 提供精美的链接展示页面，适合放在社交媒体简介中
+- 🔄 **灵活配置** - 支持JSON格式配置，可自定义名称、图标和描述
 
 ## 🚀 部署方法
 
@@ -67,6 +69,8 @@
 
 ## ⚙️ 配置方法
 
+### 基本配置（简单URL）
+
 在Vercel项目设置中添加环境变量，格式为：
 
 ```
@@ -79,6 +83,36 @@
 - `github` = `https://github.com`
 - `google` = `https://www.google.com`
 
+这种配置方式简单直接，但在链接展示页面中，只会显示路径名称，使用默认图标（蓝色链接图标）。
+
+### 完全自定义配置（JSON格式）
+
+如果需要完全自定义链接的显示方式，可以使用JSON格式：
+
+```
+<路径名称>='{"name":"显示名称","url":"目标URL","description":"描述文本","icon":"图标类名或URL"}'
+```
+
+例如：
+
+```
+github='{"name":"GitHub平台","url":"https://github.com","description":"全球最大的代码托管平台","icon":"bi-github"}'
+```
+
+JSON格式支持以下字段：
+- `name`: 显示名称（可选，默认使用路径名称）
+- `url`: 目标URL（必填）
+- `description`: 描述文本（可选）
+- `icon`: 图标（可选，默认使用"bi-link-45deg"）
+  - 可以是Bootstrap图标类名，如 `bi-github`、`bi-youtube`、`bi-twitter` 等
+  - Bootstrap图标完整列表：[https://icons.getbootstrap.com/](https://icons.getbootstrap.com/)
+  - 也可以是图片URL，如 `https://example.com/icon.png`
+- `animation`: 动画效果（可选）
+  - 可设置为 `pulse-anim` 使卡片有呼吸灯效果
+  - 默认为空，无动画效果
+
+> 查看 [examples/setup-env.sh](examples/setup-env.sh) 获取完整示例
+
 ## 📖 使用方法
 
 部署完成后，假设你的域名是`example.com`：
@@ -87,6 +121,16 @@
 - 访问 `https://example.com/github` 将会重定向到GitHub
 - 访问 `https://example.com/google` 将会重定向到Google
 - 访问 `https://example.com/` 将会显示所有可用的转发配置
+- 访问 `https://example.com/links` 将会显示精美的链接展示页面
+
+### 链接展示页面
+
+链接展示页面是一个精美的卡片布局页面，特别适合用于：
+- 放在YouTube频道简介中
+- 放在社交媒体个人主页
+- 作为个人导航页面
+
+用户可以一目了然地看到所有链接及其描述，点击卡片即可访问目标URL。
 
 ## 🔍 使用场景
 
@@ -95,12 +139,14 @@
 - 企业内部常用链接导航
 - 临时重定向服务
 - 营销活动链接管理
+- YouTube视频描述链接集合
 
 ## ⚠️ 注意事项
 
 - 环境变量名称只能包含字母、数字和下划线
-- 环境变量的值必须以`http://`或`https://`开头
+- 环境变量的值必须以`http://`或`https://`开头，或者是有效的JSON字符串
 - 转发路径区分大小写
+- 使用JSON格式时，确保JSON格式正确
 - Vercel免费计划有一定的限制，请查阅[Vercel文档](https://vercel.com/docs/concepts/limits/overview)
 
 ## 🛠️ 本地开发
@@ -111,6 +157,9 @@ npm install
 
 # 本地运行
 npm start
+
+# 使用示例配置运行
+source examples/setup-env.sh && npm start
 ```
 
 ## 📄 许可证
