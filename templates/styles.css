@@ -255,14 +255,14 @@ a:hover {
 }
 
 .link-icon {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
   color: #f0f0f0;
   transition: all 0.3s ease;
 }
 
 .link-card:hover .link-icon {
-  transform: scale(1.2);
+  transform: scale(1.1);
   color: #3b82f6;
 }
 
