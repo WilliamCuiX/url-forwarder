@@ -69,19 +69,40 @@
 
 ## ⚙️ 配置方法
 
+### 环境变量命名规范
+
+为了更好地管理环境变量，建议在配置链接时使用 `path_` 前缀：
+
+```
+path_<路径名称>=<目标URL或JSON配置>
+```
+
+例如：
+```
+path_github='{"name":"GitHub平台","url":"https://github.com","description":"全球最大的代码托管平台","icon":"bi-github"}'
+```
+
+使用 `path_` 前缀的好处：
+- 更清晰地区分链接配置与其他环境变量
+- 避免与系统环境变量冲突
+- 便于管理和维护
+
+> 注意：虽然环境变量使用 `path_` 前缀，但在访问时仍然使用原始路径。
+> 例如，环境变量名为 `path_github`，访问时仍然使用 `example.com/github`
+
 ### 基本配置（简单URL）
 
 在Vercel项目设置中添加环境变量，格式为：
 
 ```
-<路径名称>=<目标URL>
+path_<路径名称>=<目标URL>
 ```
 
 例如：
 
-- `baidu` = `https://www.baidu.com`
-- `github` = `https://github.com`
-- `google` = `https://www.google.com`
+- `path_baidu` = `https://www.baidu.com`
+- `path_github` = `https://github.com`
+- `path_google` = `https://www.google.com`
 
 这种配置方式简单直接，但在链接展示页面中，只会显示路径名称，使用默认图标（蓝色链接图标）。
 
@@ -90,13 +111,13 @@
 如果需要完全自定义链接的显示方式，可以使用JSON格式：
 
 ```
-<路径名称>='{"name":"显示名称","url":"目标URL","description":"描述文本","icon":"图标类名或URL"}'
+path_<路径名称>='{"name":"显示名称","url":"目标URL","description":"描述文本","icon":"图标类名或URL"}'
 ```
 
 例如：
 
 ```
-github='{"name":"GitHub平台","url":"https://github.com","description":"全球最大的代码托管平台","icon":"bi-github"}'
+path_github='{"name":"GitHub平台","url":"https://github.com","description":"全球最大的代码托管平台","icon":"bi-github"}'
 ```
 
 JSON格式支持以下字段：

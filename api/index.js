@@ -60,36 +60,36 @@ module.exports = (req, res) => {
         // 必须有值且是字符串
         if (!process.env[key] || typeof process.env[key] !== 'string') return false;
         
-        // 必须是HTTP链接或JSON格式
-        if (!process.env[key].startsWith('http') && !process.env[key].startsWith('{')) return false;
-        
-        // 排除描述变量
-        if (key.endsWith('_DESC')) return false;
-        
-        // 排除系统环境变量
-        for (const prefix of systemPrefixes) {
-          if (key.startsWith(prefix)) return false;
-        }
+        // 必须以path_开头
+        if (!key.startsWith('path_')) return false;
         
         return true;
       })
       .map(key => {
-        const value = process.env[key];
+        const value = process.env[key].trim();
+        const pathKey = key.replace('path_', '');  // 移除path_前缀
         
         // 尝试解析为JSON
         try {
-          if (value.trim().startsWith('{')) {
+          if (value.startsWith('{') || value.startsWith("'") || value.startsWith('"')) {
+            // 去除可能存在的外层引号
+            let cleanedValue = value;
+            if (cleanedValue.startsWith("'") && cleanedValue.endsWith("'")) {
+              cleanedValue = cleanedValue.slice(1, -1);
+            } else if (cleanedValue.startsWith('"') && cleanedValue.endsWith('"')) {
+              cleanedValue = cleanedValue.slice(1, -1);
+            }
             // 规范化JSON字符串，去除可能的空白和换行符
-            const cleanedValue = value.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+            cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
             const jsonData = JSON.parse(cleanedValue);
             return {
-              path: key,
-              name: jsonData.name || key,
+              path: pathKey,  // 使用去掉path_前缀的key
+              name: jsonData.name || pathKey,
               url: jsonData.url,
               description: jsonData.description || '',
               icon: jsonData.icon || '',
               animation: jsonData.animation || '',
-              order: jsonData.order || 999 // 添加排序字段，默认为999
+              order: jsonData.order || 999
             };
           }
         } catch (e) {
@@ -98,13 +98,13 @@ module.exports = (req, res) => {
         
         // 如果不是JSON或解析失败，使用简单的URL格式
         return {
-          path: key,
-          name: key, // 简单格式下，名称与路径相同
-          url: value, 
-          description: '', // 简单格式下没有描述
+          path: pathKey,  // 使用去掉path_前缀的key
+          name: pathKey,
+          url: value,
+          description: '',
           icon: '',
           animation: '',
-          order: 999 // 添加排序字段，默认为999
+          order: 999
         };
       })
       .filter(item => item.url && item.url.startsWith('http')) // 确保URL有效
@@ -195,7 +195,7 @@ module.exports = (req, res) => {
   }
   
   // 检查环境变量中是否有对应的转发配置
-  const targetVar = process.env[cleanPath];
+  const targetVar = process.env[cleanPath] || process.env[`path_${cleanPath}`];
   
   if (!targetVar) {
     const notFoundTemplate = readTemplate('404.html');
@@ -216,9 +216,16 @@ module.exports = (req, res) => {
   
   // 如果是JSON格式，解析并提取URL
   try {
-    if (targetVar.trim().startsWith('{')) {
+    if (targetVar.trim().startsWith('{') || targetVar.trim().startsWith("'") || targetVar.trim().startsWith('"')) {
+      // 去除可能存在的外层引号
+      let cleanedValue = targetVar.trim();
+      if (cleanedValue.startsWith("'") && cleanedValue.endsWith("'")) {
+        cleanedValue = cleanedValue.slice(1, -1);
+      } else if (cleanedValue.startsWith('"') && cleanedValue.endsWith('"')) {
+        cleanedValue = cleanedValue.slice(1, -1);
+      }
       // 规范化JSON字符串，去除可能的空白和换行符
-      const cleanedValue = targetVar.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+      cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
       const jsonData = JSON.parse(cleanedValue);
       targetUrl = jsonData.url;
     }
