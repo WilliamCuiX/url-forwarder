@@ -119,13 +119,13 @@
           if (item.description) {
             if (inviteCode) {
               // 如果有邀请码，添加复制按钮
-              const description = item.description.replace(inviteCode, `<span class="invite-code">${inviteCode}</span>`);
+              const description = item.description.replace(
+                inviteCode, 
+                `<span class="invite-code" onclick="event.stopPropagation(); copyToClipboard('${inviteCode}')">${inviteCode}</span>`
+              );
               descriptionHtml = `
                 <p class="link-description">
                   ${description}
-                  <button class="copy-btn" onclick="event.stopPropagation(); copyToClipboard('${inviteCode}')">
-                    <i class="bi bi-clipboard"></i> 复制
-                  </button>
                 </p>
               `;
             } else {
