@@ -72,6 +72,12 @@
           const card = document.createElement('div');
           card.className = `link-card ${animClass}`;
           
+          // 为特定链接添加特殊标识
+          if (item.name && (item.name.includes('PingMe接码') || item.name.includes('AdsPower浏览器'))) {
+            card.setAttribute('data-name', item.name);
+            card.classList.add('white-bg-card');
+          }
+          
           // 构建图标HTML - 支持Bootstrap图标和自定义图片图标
           let iconHtml = '';
           if (item.icon && item.icon.startsWith('http')) {
