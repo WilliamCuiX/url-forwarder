@@ -107,7 +107,15 @@ module.exports = (req, res) => {
           order: 999
         };
       })
-      .filter(item => item.url && item.url.startsWith('http')) // 确保URL有效
+      .filter(item => {
+        // 确保URL有效
+        if (!item.url || !item.url.startsWith('http')) return false;
+        
+        // 过滤掉只有路径没有描述的简单链接（description为空的情况）
+        if (!item.description || item.description.trim() === '') return false;
+        
+        return true;
+      })
       .sort((a, b) => a.order - b.order); // 按order字段排序，从小到大
     
     // 渲染模板
@@ -250,4 +258,4 @@ module.exports = (req, res) => {
   
   // 执行重定向
   res.redirect(targetUrl);
-}; 
+};

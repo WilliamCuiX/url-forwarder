@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <title>我的精选链接 - URL Forwarder</title>
+    <title>我的工具箱 - URL Forwarder</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
@@ -76,7 +76,9 @@
           let iconHtml = '';
           if (item.icon && item.icon.startsWith('http')) {
             // 如果是URL，使用图片，适应各种形状的logo
-            iconHtml = `<div class="logo-container"><img src="${item.icon}" class="link-icon-img" alt="${item.name} 图标"></div>`;
+            const isSvg = item.icon.toLowerCase().includes('.svg');
+            const crossOrigin = isSvg ? 'crossorigin="anonymous"' : '';
+            iconHtml = `<div class="logo-container"><img src="${item.icon}" class="link-icon-img" alt="${item.name} 图标" ${crossOrigin} onerror="console.error('图片加载失败:', '${item.icon}'); this.style.border='2px solid red'; this.style.display='none';" onload="console.log('图片加载成功:', '${item.icon}');"></div>`;
           } else {
             // 否则使用Bootstrap图标
             iconHtml = `<i class="bi ${iconClass} link-icon" style="color: #3b82f6;"></i>`;
