@@ -22,6 +22,65 @@ function renderTemplate(template, variables) {
   return rendered;
 }
 
+// 从环境变量构建链接列表
+// includeHidden=false 时过滤掉 hidden:true 的条目（用于 /links 精选页）
+// includeHidden=true  时显示全部（用于 /tools 完整页）
+function buildLinkItems(includeHidden = false) {
+  return Object.keys(process.env)
+    .filter(key => {
+      if (!process.env[key] || typeof process.env[key] !== 'string') return false;
+      if (!key.startsWith('path_')) return false;
+      return true;
+    })
+    .map(key => {
+      const value = process.env[key].trim();
+      const pathKey = key.replace('path_', '');
+
+      try {
+        if (value.startsWith('{') || value.startsWith("'") || value.startsWith('"')) {
+          let cleanedValue = value;
+          if (cleanedValue.startsWith("'") && cleanedValue.endsWith("'")) {
+            cleanedValue = cleanedValue.slice(1, -1);
+          } else if (cleanedValue.startsWith('"') && cleanedValue.endsWith('"')) {
+            cleanedValue = cleanedValue.slice(1, -1);
+          }
+          cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+          const jsonData = JSON.parse(cleanedValue);
+          return {
+            path: pathKey,
+            name: jsonData.name || pathKey,
+            url: jsonData.url,
+            description: jsonData.description || '',
+            icon: jsonData.icon || '',
+            animation: jsonData.animation || '',
+            order: jsonData.order || 999,
+            hidden: jsonData.hidden || false
+          };
+        }
+      } catch (e) {
+        console.error(`Error parsing JSON for ${key}:`, e);
+      }
+
+      return {
+        path: pathKey,
+        name: pathKey,
+        url: value,
+        description: '',
+        icon: '',
+        animation: '',
+        order: 999,
+        hidden: false
+      };
+    })
+    .filter(item => {
+      if (!item.url || !item.url.startsWith('http')) return false;
+      if (!item.description || item.description.trim() === '') return false;
+      if (!includeHidden && item.hidden) return false;
+      return true;
+    })
+    .sort((a, b) => a.order - b.order);
+}
+
 module.exports = (req, res) => {
   // 获取请求路径，确保正确处理根路径
   const reqPath = req.url.split('?')[0];
@@ -40,90 +99,41 @@ module.exports = (req, res) => {
     }
   }
   
-  // 处理links页面请求
+  // 处理 /links 精选链接页（不显示 hidden:true 的条目）
   if (cleanPath === 'links') {
     const linksTemplate = readTemplate('links.html');
     if (!linksTemplate) {
       return res.status(500).send('Error loading links template');
     }
-    
-    // 系统环境变量前缀，这些变量不应该显示
-    const systemPrefixes = [
-      'NODE_', 'npm_', 'VERCEL_', 'AWS_', 'HOMEBREW_', 'TS_', 'PATH', 'HOME',
-      'USER', 'LANG', 'SHELL', 'TERM', 'SSH', 'DISPLAY', 'XDG_', 'EDITOR', 'GIT_',
-      'DYLD_', 'TMPDIR', 'LSCOLORS', 'ZSH', 'PAGER', 'LESS', 'PWD', 'LC_', '_'
-    ];
-    
-    // 准备URL链接列表，排除系统环境变量
-    const linkItems = Object.keys(process.env)
-      .filter(key => {
-        // 必须有值且是字符串
-        if (!process.env[key] || typeof process.env[key] !== 'string') return false;
-        
-        // 必须以path_开头
-        if (!key.startsWith('path_')) return false;
-        
-        return true;
-      })
-      .map(key => {
-        const value = process.env[key].trim();
-        const pathKey = key.replace('path_', '');  // 移除path_前缀
-        
-        // 尝试解析为JSON
-        try {
-          if (value.startsWith('{') || value.startsWith("'") || value.startsWith('"')) {
-            // 去除可能存在的外层引号
-            let cleanedValue = value;
-            if (cleanedValue.startsWith("'") && cleanedValue.endsWith("'")) {
-              cleanedValue = cleanedValue.slice(1, -1);
-            } else if (cleanedValue.startsWith('"') && cleanedValue.endsWith('"')) {
-              cleanedValue = cleanedValue.slice(1, -1);
-            }
-            // 规范化JSON字符串，去除可能的空白和换行符
-            cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
-            const jsonData = JSON.parse(cleanedValue);
-            return {
-              path: pathKey,  // 使用去掉path_前缀的key
-              name: jsonData.name || pathKey,
-              url: jsonData.url,
-              description: jsonData.description || '',
-              icon: jsonData.icon || '',
-              animation: jsonData.animation || '',
-              order: jsonData.order || 999
-            };
-          }
-        } catch (e) {
-          console.error(`Error parsing JSON for ${key}:`, e);
-        }
-        
-        // 如果不是JSON或解析失败，使用简单的URL格式
-        return {
-          path: pathKey,  // 使用去掉path_前缀的key
-          name: pathKey,
-          url: value,
-          description: '',
-          icon: '',
-          animation: '',
-          order: 999
-        };
-      })
-      .filter(item => {
-        // 确保URL有效
-        if (!item.url || !item.url.startsWith('http')) return false;
-        
-        // 过滤掉只有路径没有描述的简单链接（description为空的情况）
-        if (!item.description || item.description.trim() === '') return false;
-        
-        return true;
-      })
-      .sort((a, b) => a.order - b.order); // 按order字段排序，从小到大
-    
-    // 渲染模板
+
+    const linkItems = buildLinkItems(false);
+
     const rendered = renderTemplate(linksTemplate, {
       LINK_ITEMS: JSON.stringify(linkItems),
+      PAGE_TITLE: '精选链接',
+      PAGE_DESC: '来看看这些精选的资源和工具吧！点击卡片即可访问',
       CURRENT_YEAR: new Date().getFullYear().toString()
     });
-    
+
+    return res.status(200).send(rendered);
+  }
+
+  // 处理 /tools 完整工具箱页（显示全部链接，包括 hidden:true 的条目）
+  if (cleanPath === 'tools') {
+    const linksTemplate = readTemplate('links.html');
+    if (!linksTemplate) {
+      return res.status(500).send('Error loading links template');
+    }
+
+    const linkItems = buildLinkItems(true);
+
+    const rendered = renderTemplate(linksTemplate, {
+      LINK_ITEMS: JSON.stringify(linkItems),
+      PAGE_TITLE: '我的工具箱',
+      PAGE_DESC: '来看看这些超棒的资源和工具吧！点击卡片即可访问',
+      CURRENT_YEAR: new Date().getFullYear().toString()
+    });
+
     return res.status(200).send(rendered);
   }
   
