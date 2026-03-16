@@ -45,6 +45,8 @@ function buildLinkItems(includeHidden = false) {
             cleanedValue = cleanedValue.slice(1, -1);
           }
           cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+          // 移除 trailing comma（Vercel 控制台手动输入 JSON 时容易出现）
+          cleanedValue = cleanedValue.replace(/,(\s*[}\]])/g, '$1');
           const jsonData = JSON.parse(cleanedValue);
           return {
             path: pathKey,
@@ -244,6 +246,8 @@ module.exports = (req, res) => {
       }
       // 规范化JSON字符串，去除可能的空白和换行符
       cleanedValue = cleanedValue.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ');
+      // 移除 trailing comma
+      cleanedValue = cleanedValue.replace(/,(\s*[}\]])/g, '$1');
       const jsonData = JSON.parse(cleanedValue);
       targetUrl = jsonData.url;
     }
