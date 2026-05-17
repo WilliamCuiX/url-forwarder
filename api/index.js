@@ -218,16 +218,29 @@ module.exports = (req, res) => {
   const targetVar = process.env[cleanPath] || process.env[`path_${cleanPath}`];
   
   if (!targetVar) {
+    // 前缀匹配：/docs/foundation/resources 匹配 prefix_docs，剩余路径拼到目标 URL 后
+    const slashIndex = cleanPath.indexOf('/');
+    if (slashIndex > 0) {
+      const firstSegment = cleanPath.substring(0, slashIndex);
+      const rest = cleanPath.substring(slashIndex + 1);
+      const prefixVar = process.env[`prefix_${firstSegment}`];
+      if (prefixVar && prefixVar.startsWith('http')) {
+        const base = prefixVar.trim().replace(/\/$/, '');
+        const queryString = req.url.includes('?') ? '?' + req.url.split('?').slice(1).join('?') : '';
+        return res.redirect(`${base}/${rest}${queryString}`);
+      }
+    }
+
     const notFoundTemplate = readTemplate('404.html');
     if (!notFoundTemplate) {
       return res.status(404).send('404 - Not Found');
     }
-    
+
     // 渲染模板
     const rendered = renderTemplate(notFoundTemplate, {
       PATH: `/${cleanPath}`
     });
-    
+
     return res.status(404).send(rendered);
   }
   
